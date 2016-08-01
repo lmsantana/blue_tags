@@ -68,7 +68,7 @@ class ScanDelegate(DefaultDelegate):
 # General Functions
 ###############################################
 
-
+#
 
 ###############################################
 # Scanning Devices
@@ -86,9 +86,10 @@ class ScanDelegate(DefaultDelegate):
 # Main loop routine
 ###############################################
 # Delete old file for testing
-os.system("sudo rm data/data_from_rpi.csv")
+# os.system("sudo rm data/data_from_rpi.csv")
 # Creating new file
-file = open("data/data_from_rpi.csv", "a")
+name = "data/data_from_rpi_at_" + strftime("%Y_%m_%d__%H_%M_%S",gmtime()) + ".csv"
+file = open(name, "a")
 
 while 1:
     try:
