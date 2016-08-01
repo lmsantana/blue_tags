@@ -2,8 +2,6 @@ from bluepy.btle import Scanner, DefaultDelegate, Peripheral, Service, Character
 from time import gmtime, strftime
 import os
 import sys
-import threading
-import thread
 
 ##############################################
 # BluePy Library Notes
@@ -50,9 +48,7 @@ nodes = {}
 ##############################################
 # Global general variables
 ##############################################
-datax = ""
-datay = ""
-dataz = ""
+counter = 0
 
 ##############################################
 # Override for Scanner Class
@@ -90,9 +86,9 @@ class ScanDelegate(DefaultDelegate):
 # Main loop routine
 ###############################################
 # Delete old file for testing
-os.system("sudo rm data/data_from_nodes.csv")
+os.system("sudo rm data/data_from_rpi.csv")
 # Creating new file
-file = open("data/data_from_nodes.csv", "a")
+file = open("data/data_from_rpi.csv", "a")
 
 while 1:
     try:
@@ -105,17 +101,20 @@ while 1:
 
         print " "
         print "Checking which tags were sensed..."
+        counter = counter + 1
         for dev in devices:
             if dev.addr == TAG_DIC['AUSTIN']:
-                print "Austin was sensed!"
-                file.write("Austin, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ ", ")
-                print "Austin has RSSI of %d dB" %(dev.rssi)  
+                if dev.rssi >= -80:
+                    print "Austin was sensed with RSSI of %d dB" %(dev.rssi)
+                    file.write("Austin, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ (", %d \n" %counter))
             if dev.addr == TAG_DIC['HALEY']:
-                print "Haley was sensed!"
-                file.write("Haley, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ ", ")
+                if dev.rssi >= -80:
+                    print "Haley was sensed with RSSI of %d dB" %(dev.rssi)
+                    file.write("Haley, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ (", %d \n" %counter))
             if dev.addr == TAG_DIC['JOSE']:
-                print "Jose was sensed!"
-                file.write("Jose, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ ", ")
+                if dev.rssi >= -80:
+                    print "Jose was sensed with RSSI of %d dB" %(dev.rssi)
+                    file.write("Jose, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ (", %d \n" %counter))
         
     except KeyboardInterrupt:
         print " "
