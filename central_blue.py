@@ -99,7 +99,7 @@ while 1:
         os.system("sudo hciconfig hci0 down")
         os.system("sudo hciconfig hci0 up")
         print " "
-        print "Scanning devices... (time frame of 10 seconds"
+        print "Scanning devices... (time frame of 10 seconds)"
         scanner = Scanner().withDelegate(ScanDelegate())
         devices = scanner.scan(10.0)
 
@@ -108,13 +108,14 @@ while 1:
         for dev in devices:
             if dev.addr == TAG_DIC['AUSTIN']:
                 print "Austin was sensed!"
-                file.write("Austin, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+                file.write("Austin, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ ", ")
+                print "Austin has RSSI of %d dB" %(dev.rssi)  
             if dev.addr == TAG_DIC['HALEY']:
                 print "Haley was sensed!"
-                file.write("Haley, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+                file.write("Haley, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ ", ")
             if dev.addr == TAG_DIC['JOSE']:
                 print "Jose was sensed!"
-                file.write("Jose, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+                file.write("Jose, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ ", ")
         
     except KeyboardInterrupt:
         print " "
