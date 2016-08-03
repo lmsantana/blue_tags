@@ -35,7 +35,7 @@ MAC_DIC = {'BENDSAW':BNDSW_MAC_ADDR, 'DRILL_PRESS':DRILL_MAC_ADDR,
 			'MILL':MILLI_MAC_ADDR, 'CIRCULAR_SAW':CIRCS_MAC_ADDR,
 			'SPIROMETER':SPIRO_MAC_ADDR}
 
-TAG_DIC = {'AUSTIN': ESTIMOTE_LBLUE_MAC_ADDR,
+TAG_DIC = {'NISA': ESTIMOTE_LBLUE_MAC_ADDR,
            'HALEY' : ESTIMOTE_PURPL_MAC_ADDR,
            'JOSE'  : ESTIMOTE_GREEN_MAC_ADDR}
 
@@ -90,11 +90,11 @@ class ScanDelegate(DefaultDelegate):
 # Creating new file
 name = "data/data_from_rpi_at_" + strftime("%Y_%m_%d__%H_%M_%S",gmtime()) + ".csv"
 file = open(name, "a")
+os.system("sudo hciconfig hci0 down")
+os.system("sudo hciconfig hci0 up")
 
 while 1:
     try:
-        os.system("sudo hciconfig hci0 down")
-        os.system("sudo hciconfig hci0 up")
         print " "
         print "Scanning devices... (time frame of 10 seconds)"
         scanner = Scanner().withDelegate(ScanDelegate())
@@ -104,10 +104,10 @@ while 1:
         print "Checking which tags were sensed..."
         counter = counter + 1
         for dev in devices:
-            if dev.addr == TAG_DIC['AUSTIN']:
+            if dev.addr == TAG_DIC['NISA']:
                 if dev.rssi >= -80:
-                    print "Austin was sensed with RSSI of %d dB" %(dev.rssi)
-                    file.write("Austin, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ (", %d \n" %counter))
+                    print "Nisa was sensed with RSSI of %d dB" %(dev.rssi)
+                    file.write("Nisa, "+ strftime("%Y-%m-%d %H:%M:%S", gmtime())+ (", %d \n" %counter))
             if dev.addr == TAG_DIC['HALEY']:
                 if dev.rssi >= -80:
                     print "Haley was sensed with RSSI of %d dB" %(dev.rssi)
